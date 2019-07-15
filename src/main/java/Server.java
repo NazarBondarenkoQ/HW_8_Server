@@ -3,8 +3,8 @@ package main.java;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-import main.java.myExceptions.PalindromeException;
-import main.java.myExceptions.WrongNumberException;
+import main.java.exceptions.PalindromeException;
+import main.java.exceptions.WrongNumberException;
 
 import java.io.*;
 import java.net.InetSocketAddress;

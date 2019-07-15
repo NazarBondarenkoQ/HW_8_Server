@@ -1,4 +1,4 @@
-package main.java.myExceptions;
+package main.java.exceptions;
 
 public class WrongNumberException extends Exception {
     public WrongNumberException(String message) {
