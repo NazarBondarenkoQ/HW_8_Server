@@ -1,4 +1,4 @@
-package main.java.Errors;
+package main.java.errors;
 
 public class StackOverflowTest {
     public static void main(String[] args) {
