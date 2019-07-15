@@ -98,7 +98,7 @@ public class Server {
         }
     }
 
-    public static byte address(){
+    private static byte address(){
         System.out.println("To check the results, please visit: http://localhost:8000/homework");
         return 0;
     }
