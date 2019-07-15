@@ -28,7 +28,7 @@ public class Server {
         String palindrome = palindromeCheck();
         String number = numberCheck();
         String obj = nullChecker();
-        byte address = address(); // magic method
+        byte address = address();
 
 
         @Override
