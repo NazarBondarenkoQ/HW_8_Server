@@ -3,16 +3,19 @@ package main.java;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import main.java.exceptions.CustomNPE;
 import main.java.exceptions.PalindromeException;
 import main.java.exceptions.WrongNumberException;
 
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.util.InputMismatchException;
-import java.util.Optional;
 import java.util.Scanner;
 
 public class Server {
+
+    private static Scanner scanner = new Scanner(System.in);
+
     public static void main(String[] args) {
         try {
             HttpServer httpServer = HttpServer.create(new InetSocketAddress(8000), 0);
@@ -28,7 +31,6 @@ public class Server {
         String palindrome = palindromeCheck();
         String number = numberCheck();
         String obj = nullChecker();
-        byte address = address();
 
 
         @Override
@@ -44,25 +46,24 @@ public class Server {
     }
 
     private static String palindromeCheck() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter the word: ");
         String palindrome = scanner.next();
         StringBuilder stringBuilder = new StringBuilder(palindrome);
+        String str;
         if (palindrome.toUpperCase().equals(stringBuilder.reverse().toString().toUpperCase())) {
-            return ("Word: \"" + palindrome + "\" is a palindrome.");
+            str = ("Word: \"" + palindrome + "\" is a palindrome.");
         } else {
-            String str = ("Word: \"" + palindrome + "\" is not a palindrome.");
+            str = ("Word: \"" + palindrome + "\" is not a palindrome.");
             try {
                 throw new PalindromeException(str);
             } catch (PalindromeException ex) {
                 ex.printStackTrace();
             }
-            return str;
         }
+        return str;
     }
 
     private static String numberCheck() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter the number less than 100 and dividable by 2: ");
         int number;
         String str = null;
@@ -73,11 +74,11 @@ public class Server {
                     str = ("Number: \"" + number + "\" is not a valid number");
                     throw new WrongNumberException(str);
                 } else {
-                    return ("Number: \"" + number + "\" is a valid number");
+                    str = ("Number: \"" + number + "\" is a valid number");
                 }
             } else {
-                String s = "You have entered wrong data. Please enter a number.";
-                throw new InputMismatchException(s);
+                str = "You have entered wrong data. Please enter a number.";
+                throw new InputMismatchException(str);
             }
         } catch (InputMismatchException | WrongNumberException e) {
             e.printStackTrace();
@@ -87,19 +88,31 @@ public class Server {
 
 
     private static String nullChecker() {
-        Object object;
-        Scanner scanner = new Scanner(System.in);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Please enter the object: ");
-        object = scanner.next();
-        if (Optional.ofNullable(object).isEmpty()) {
-            throw new NullPointerException("The object is null");
-        } else {
-            return ("Object is not null. Object type: " + object.getClass());
+        Object object = null;
+        try {
+            object = reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        String str = null;
+        try {
+            if (object.equals("")) {
+                str = "The object is null";
+                throw new CustomNPE(str);
+            } else {
+                str = ("Object is not null. Object type: " + object.getClass());
+            }
+        } catch (CustomNPE customNPE) {
+            customNPE.printStackTrace();
+        } finally {
+            address();
+        }
+        return str;
     }
 
-    private static byte address(){
+    private static void address() {
         System.out.println("To check the results, please visit: http://localhost:8000/homework");
-        return 0;
     }
 }
